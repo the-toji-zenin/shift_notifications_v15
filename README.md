@@ -7,25 +7,30 @@ An enterprise-ready Frappe v15 application extending Frappe HRMS attendance func
 ## Features
 
 ### 1. Shift Starting Reminder
+
 * Automatically notifies employees before their scheduled shift begins (configurable, default: 10 minutes prior).
 * Skips employees who have already punched IN, employees on approved leave, or employees on holidays/weekly offs.
 * Message: *"Your shift starts in 10 minutes (09:00 AM). Please remember to check in."*
 
 ### 2. Missed Check-in Reminder
+
 * Alerts employees who have not checked in after their scheduled shift has started and grace period elapsed (configurable, default: 15 minutes after start).
 * Respects approved leave and holiday schedules.
 * Message: *"You have not checked in yet. Your scheduled shift started at 09:00 AM. Please check in."*
 
 ### 3. Upcoming Checkout Reminder
+
 * Notifies employees who are checked in as their scheduled shift end approaches (configurable, default: 15 minutes prior).
 * Message: *"Your shift ends in 15 minutes (05:00 PM). Please remember to check out."*
 
 ### 4. Missed Checkout Reminder
+
 * Alerts employees who checked in but have not checked out after their scheduled shift ended plus grace period (configurable, default: 15 minutes after end).
 * Handles overnight and cross-midnight shifts accurately.
 * Message: *"Your scheduled shift ended at 05:00 PM, but no checkout record was found. Please complete your checkout."*
 
 ### 5. Real-time Frontend Shift Status & Checkout Countdown
+
 * Integrated directly into the Frappe HR PWA (`/hrms/home` & `CheckInPanel.vue`).
 * Displays:
   * Current scheduled shift hours: `09:00 AM – 05:00 PM`.
@@ -35,6 +40,7 @@ An enterprise-ready Frappe v15 application extending Frappe HRMS attendance func
   * Scheduled start reminder when not checked in.
 
 ### 6. Atomic Idempotency & Concurrency Safety
+
 * Every notification run generates a deterministic key:
   `{NOTIFICATION_TYPE}_{EMPLOYEE}_{SHIFT_ASSIGNMENT}_{YYYYMMDDHHMM}`.
 * Backed by database uniqueness constraint in `Shift Notification Log` to guarantee zero duplicate messages across multi-worker bench schedulers.
@@ -74,6 +80,7 @@ apps/shift_notifications/
 ## Installation & Setup
 
 ### 1. Install to Bench Site
+
 ```bash
 cd /home/lenovo/frappe15-new-bench
 
@@ -85,6 +92,7 @@ bench --site shift.com migrate
 ```
 
 ### 2. Configure Settings
+
 In Frappe Desk, navigate to:
 **Awesome Bar &rarr; Shift Notification Settings**
 
@@ -94,38 +102,7 @@ In Frappe Desk, navigate to:
 * Save the document.
 
 ### 3. Run Automated Tests
+
 ```bash
 bench --site shift.com run-tests --app shift_notifications
-```
-
----
-
-## Git Repository & Co-authored Commits
-
-Remote repository: `https://github.com/the-toji-zenin/shift_notifications_v15.git`
-
-To commit and push the implementation with co-authorship:
-
-```bash
-cd /home/lenovo/frappe15-new-bench/apps/shift_notifications
-
-git init
-git remote add origin https://github.com/the-toji-zenin/shift_notifications_v15.git
-git add .
-
-git commit -m "feat: complete shift check-in and check-out notification engine and frontend countdown
-
-- Add Shift Notification Settings single doctype
-- Add Shift Notification Log doctype with atomic idempotency
-- Add ShiftService, AttendanceService, NotificationService, and ShiftEvaluator
-- Add 1-minute scheduler task for shift start, missed checkin, upcoming checkout, and missed checkout reminders
-- Add whitelisted API get_my_shift_status
-- Integrate real-time countdown clock and checkout alert banner into /hrms/home
-- Add unit and integration tests
-
-Co-authored-by: Ahmad <ahmadpashashaiks@gmail.com>
-Co-authored-by: Antigravity <antigravity@deepmind.google.com>"
-
-git branch -M main
-git push -u origin main
 ```
