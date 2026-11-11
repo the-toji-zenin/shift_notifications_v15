@@ -63,6 +63,22 @@ class TestShiftNotifications(unittest.TestCase):
 
 		# 4. Setup Test Employee
 		self.test_user = "test_shift_emp@example.com"
+
+		# Setup Test Gender (Employee gender is a Link field; also needed by User->Contact)
+		if not frappe.db.exists("Gender", "Male"):
+			gender = frappe.new_doc("Gender")
+			gender.gender = "Male"
+			gender.insert(ignore_permissions=True)
+
+		# Setup Test Company (Employee requires a company)
+		if not frappe.db.exists("Company", "Test Company"):
+			company = frappe.new_doc("Company")
+			company.company_name = "Test Company"
+			company.abbr = "TC"
+			company.country = "India"
+			company.default_currency = "INR"
+			company.insert(ignore_permissions=True)
+
 		if not frappe.db.exists("User", self.test_user):
 			user = frappe.new_doc("User")
 			user.email = self.test_user
@@ -71,12 +87,16 @@ class TestShiftNotifications(unittest.TestCase):
 			user.insert(ignore_permissions=True)
 
 		self.test_emp_name = "TEST-EMP-SHIFT-01"
+
 		if not frappe.db.exists("Employee", self.test_emp_name):
 			emp = frappe.new_doc("Employee")
 			emp.name = self.test_emp_name
 			emp.first_name = "Shift Test Employee"
 			emp.user_id = self.test_user
 			emp.status = "Active"
+			emp.gender = "Male"
+			emp.date_of_birth = "1990-01-01"
+			emp.company = "Test Company"
 			emp.date_of_joining = "2020-01-01"
 			emp.insert(ignore_permissions=True)
 
@@ -88,6 +108,7 @@ class TestShiftNotifications(unittest.TestCase):
 		self.assignment.start_date = add_days(today, -5)
 		self.assignment.end_date = add_days(today, 5)
 		self.assignment.status = "Active"
+		self.assignment.company = "Test Company"
 		self.assignment.insert(ignore_permissions=True)
 		self.assignment.submit()
 
@@ -95,6 +116,11 @@ class TestShiftNotifications(unittest.TestCase):
 		frappe.db.sql("DELETE FROM `tabShift Notification Log` WHERE employee LIKE 'TEST-EMP%'")
 		frappe.db.sql("DELETE FROM `tabEmployee Checkin` WHERE employee LIKE 'TEST-EMP%'")
 		frappe.db.sql("DELETE FROM `tabShift Assignment` WHERE employee LIKE 'TEST-EMP%'")
+		# Remove test Employee (unlinks the user) and User so user_id can be reassigned each run
+		frappe.db.sql("DELETE FROM `tabEmployee` WHERE user_id = 'test_shift_emp@example.com' OR name = 'TEST-EMP-SHIFT-01'")
+		frappe.db.sql("DELETE FROM `tabUser` WHERE email = 'test_shift_emp@example.com'")
+		frappe.db.sql("DELETE FROM `tabCompany` WHERE name = 'Test Company'")
+		frappe.db.sql("DELETE FROM `tabGender` WHERE gender = 'Male'")
 		frappe.db.commit()
 
 	# -------------------------------------------------------------
@@ -106,6 +132,7 @@ class TestShiftNotifications(unittest.TestCase):
 		eval_dt = datetime.combine(today, time(8, 52, 0))
 
 		res = ShiftEvaluator.evaluate_and_dispatch_all(eval_dt)
+		print("DEBUG dispatched:", res, "emp:", self.test_emp_name)
 		self.assertGreaterEqual(res["dispatched"], 1)
 
 		# Verify log created

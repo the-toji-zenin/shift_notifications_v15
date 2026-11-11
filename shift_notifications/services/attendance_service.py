@@ -1,7 +1,7 @@
 # Copyright (c) 2026, Ahmad and contributors
 # For license information, please see license.txt
 
-from datetime import datetime, timedelta
+from datetime import datetime, date, timedelta
 import frappe
 from frappe.utils import getdate, get_datetime, add_days
 from erpnext.setup.doctype.employee.employee import is_holiday, get_holiday_list_for_employee
@@ -9,7 +9,7 @@ from erpnext.setup.doctype.employee.employee import is_holiday, get_holiday_list
 
 class AttendanceService:
 	@staticmethod
-	def is_on_approved_leave(employee: str, check_date: datetime.date | str) -> bool:
+	def is_on_approved_leave(employee: str, check_date: date | str) -> bool:
 		"""
 		Checks if employee is on an approved Leave Application on check_date.
 		"""
@@ -28,7 +28,7 @@ class AttendanceService:
 		)
 
 	@staticmethod
-	def is_holiday(employee: str, check_date: datetime.date | str) -> bool:
+	def is_holiday(employee: str, check_date: date | str) -> bool:
 		"""
 		Checks if check_date is a holiday or weekly off for the employee.
 		"""
