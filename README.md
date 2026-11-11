@@ -77,6 +77,12 @@ apps/shift_notifications/
 
 ---
 
+## Documentation
+
+* **[Comprehensive Architecture & File-by-File Breakdown (DEVELOPMENT.md)](DEVELOPMENT.md)**: Detailed reference covering every file, its exact components, schemas, logic, and operational roles.
+
+---
+
 ## Installation & Setup
 
 ### 1. Install to Bench Site
