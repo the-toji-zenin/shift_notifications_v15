@@ -1,0 +1,207 @@
+{
+ "actions": [],
+ "creation": "2026-11-11 05:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "general_section",
+  "enable_shift_notifications",
+  "notification_channel",
+  "column_break_general",
+  "scheduler_evaluation_interval",
+  "checkin_section",
+  "enable_shift_starting_reminder",
+  "shift_starting_reminder_before_minutes",
+  "column_break_checkin",
+  "enable_missed_checkin_reminder",
+  "missed_checkin_reminder_after_minutes",
+  "checkout_section",
+  "enable_upcoming_checkout_reminder",
+  "upcoming_checkout_reminder_before_minutes",
+  "column_break_checkout",
+  "enable_missed_checkout_reminder",
+  "missed_checkout_reminder_after_minutes",
+  "delivery_section",
+  "enable_push_notifications",
+  "enable_system_notifications",
+  "column_break_delivery",
+  "max_retries",
+  "retry_interval_minutes",
+  "log_retention_days"
+ ],
+ "fields": [
+  {
+   "fieldname": "general_section",
+   "fieldtype": "Section Break",
+   "label": "General Settings"
+  },
+  {
+   "default": "1",
+   "fieldname": "enable_shift_notifications",
+   "fieldtype": "Check",
+   "label": "Enable Shift Notifications"
+  },
+  {
+   "default": "Both",
+   "fieldname": "notification_channel",
+   "fieldtype": "Select",
+   "label": "Notification Channel",
+   "options": "Push Notification\nSystem Notification\nBoth"
+  },
+  {
+   "fieldname": "column_break_general",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "description": "Evaluation interval in minutes (default: 1 min)",
+   "fieldname": "scheduler_evaluation_interval",
+   "fieldtype": "Int",
+   "label": "Scheduler Evaluation Interval (Minutes)"
+  },
+  {
+   "fieldname": "checkin_section",
+   "fieldtype": "Section Break",
+   "label": "Check-in Reminder Settings"
+  },
+  {
+   "default": "1",
+   "fieldname": "enable_shift_starting_reminder",
+   "fieldtype": "Check",
+   "label": "Enable Shift Starting Reminder"
+  },
+  {
+   "default": "10",
+   "depends_on": "enable_shift_starting_reminder",
+   "description": "Notify employee X minutes before scheduled shift start",
+   "fieldname": "shift_starting_reminder_before_minutes",
+   "fieldtype": "Int",
+   "label": "Minutes Before Shift Start"
+  },
+  {
+   "fieldname": "column_break_checkin",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "enable_missed_checkin_reminder",
+   "fieldtype": "Check",
+   "label": "Enable Missed Check-in Reminder"
+  },
+  {
+   "default": "15",
+   "depends_on": "enable_missed_checkin_reminder",
+   "description": "Notify employee if still not checked in X minutes after shift start",
+   "fieldname": "missed_checkin_reminder_after_minutes",
+   "fieldtype": "Int",
+   "label": "Minutes After Shift Start"
+  },
+  {
+   "fieldname": "checkout_section",
+   "fieldtype": "Section Break",
+   "label": "Check-out Reminder Settings"
+  },
+  {
+   "default": "1",
+   "fieldname": "enable_upcoming_checkout_reminder",
+   "fieldtype": "Check",
+   "label": "Enable Upcoming Checkout Reminder"
+  },
+  {
+   "default": "15",
+   "depends_on": "enable_upcoming_checkout_reminder",
+   "description": "Notify employee X minutes before scheduled shift end",
+   "fieldname": "upcoming_checkout_reminder_before_minutes",
+   "fieldtype": "Int",
+   "label": "Minutes Before Shift End"
+  },
+  {
+   "fieldname": "column_break_checkout",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "enable_missed_checkout_reminder",
+   "fieldtype": "Check",
+   "label": "Enable Missed Checkout Reminder"
+  },
+  {
+   "default": "15",
+   "depends_on": "enable_missed_checkout_reminder",
+   "description": "Notify employee if not checked out X minutes after shift end",
+   "fieldname": "missed_checkout_reminder_after_minutes",
+   "fieldtype": "Int",
+   "label": "Minutes After Shift End"
+  },
+  {
+   "fieldname": "delivery_section",
+   "fieldtype": "Section Break",
+   "label": "Delivery & Logging Settings"
+  },
+  {
+   "default": "1",
+   "fieldname": "enable_push_notifications",
+   "fieldtype": "Check",
+   "label": "Enable Push Notifications (PWA / Mobile)"
+  },
+  {
+   "default": "1",
+   "fieldname": "enable_system_notifications",
+   "fieldtype": "Check",
+   "label": "Enable Desk System Notifications"
+  },
+  {
+   "fieldname": "column_break_delivery",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "3",
+   "fieldname": "max_retries",
+   "fieldtype": "Int",
+   "label": "Maximum Retries on Failure"
+  },
+  {
+   "default": "5",
+   "fieldname": "retry_interval_minutes",
+   "fieldtype": "Int",
+   "label": "Retry Interval (Minutes)"
+  },
+  {
+   "default": "30",
+   "fieldname": "log_retention_days",
+   "fieldtype": "Int",
+   "label": "Log Retention (Days)"
+  }
+ ],
+ "icon": "fa fa-cog",
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-11-11 05:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Shift Notifications",
+ "name": "Shift Notification Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "HR Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "HR User"
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
